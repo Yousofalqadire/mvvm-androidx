@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Mvvm Lesson</string>
+    <string name="create_new_product">Create New Product</string>
+    <string name="enter_the_brand">enter the brand</string>
+    <string name="enter_the_price">enter the price</string>
+    <string name="enter_quantity_of_product">enter quantity of product</string>
+    <string name="enter_the_category">enter the category</string>
+    <string name="submit">Submit</string>
+</resources>
