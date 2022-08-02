@@ -35,7 +35,8 @@ public interface ProductDao {
 
     @Query("DELETE FROM products")
     void deleteAllProducts();
-
+    @Query("SELECT product_category FROM PRODUCTS")
+    LiveData<List<String>> getCategories();
 
 
 }

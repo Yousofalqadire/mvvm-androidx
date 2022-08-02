@@ -1,5 +1,6 @@
 package com.example.mvvmlesson.controllers;
 
+import android.annotation.SuppressLint;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -9,12 +10,14 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 
 import com.example.mvvmlesson.database_room.Product;
+import com.example.mvvmlesson.listeners.ProductListener;
 import com.example.mvvmlesson.views.ProductViewHolder;
 
 public class ProductsAdapter extends ListAdapter<Product, ProductViewHolder> {
-
-    public ProductsAdapter(@NonNull DiffUtil.ItemCallback<Product> diffCallback) {
+   private ProductListener productListener;
+    public ProductsAdapter(@NonNull DiffUtil.ItemCallback<Product> diffCallback,ProductListener listener) {
         super(diffCallback);
+        this.productListener = listener;
     }
 
     @NonNull
@@ -24,7 +27,7 @@ public class ProductsAdapter extends ListAdapter<Product, ProductViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ProductViewHolder holder, @SuppressLint("RecyclerView") int position) {
           Product product = getItem(position);
            holder.bind(product.getId(), product.getBrand(),
                    product.getPrice(), product.getQuantity(),
@@ -33,7 +36,7 @@ public class ProductsAdapter extends ListAdapter<Product, ProductViewHolder> {
            holder.itemView.setOnClickListener(new View.OnClickListener() {
                @Override
                public void onClick(View v) {
-                   Toast.makeText(v.getContext(), product.toString(), Toast.LENGTH_SHORT).show();
+                   productListener.productIsClicked(getItem(position));
                }
            });
     }

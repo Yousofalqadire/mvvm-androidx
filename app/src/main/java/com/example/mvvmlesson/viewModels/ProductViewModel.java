@@ -14,10 +14,12 @@ import java.util.List;
 public class ProductViewModel extends AndroidViewModel {
     LiveData<List<Product>> products;
     ShopRepository repository;
+    LiveData<List<String>> categories;
     public ProductViewModel(@NonNull Application application) {
         super(application);
         repository = new ShopRepository(application);
         products = repository.getProducts();
+        categories = repository.getGetCategories();
     }
 
     public LiveData<List<Product>> getProducts(){
@@ -28,5 +30,9 @@ public class ProductViewModel extends AndroidViewModel {
     }
     public void deleteProduct(Product product){
         repository.deleteProduct(product);
+    }
+
+    public LiveData<List<String>> getCategories() {
+        return categories;
     }
 }

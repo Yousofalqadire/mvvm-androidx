@@ -11,15 +11,18 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
 import com.example.mvvmlesson.controllers.ProductsAdapter;
 import com.example.mvvmlesson.database_room.Product;
+import com.example.mvvmlesson.listeners.ProductListener;
 import com.example.mvvmlesson.viewModels.ProductViewModel;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ProductListener {
   private RecyclerView recyclerView;
   private ProductViewModel productViewModel;
     @Override
@@ -27,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         recyclerView = findViewById(R.id.product_rc);
-        ProductsAdapter adapter = new ProductsAdapter(new ProductsAdapter.ProductDiff());
+        ProductsAdapter adapter = new ProductsAdapter(new ProductsAdapter.ProductDiff(),this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -56,4 +59,15 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
     );
+
+    @Override
+    public void productIsClicked(Product product) {
+        new AlertDialog.Builder(this).setTitle("delete from products")
+                .setPositiveButton("Yes", (dialog, which) -> {
+                    productViewModel.deleteProduct(product);
+                    dialog.dismiss();
+
+                })
+                .setNegativeButton("No", (dialog, which) -> dialog.dismiss()).create().show();
+    }
 }

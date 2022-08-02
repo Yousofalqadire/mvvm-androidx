@@ -12,17 +12,24 @@ public class ShopRepository {
     LiveData<List<Product>> products;
     LiveData<Product> product;
     ProductDao productDao;
+    LiveData<List<String>> getCategories;
 
     public ShopRepository(Application application) {
         ShopRoomDatabase shopRoomDatabase = ShopRoomDatabase.getDatabase(application);
         productDao = shopRoomDatabase.productDao();
         products = productDao.getAllProducts();
+        getCategories = productDao.getCategories();
 
     }
 
     public LiveData<List<Product>> getProducts() {
         return products;
     }
+
+    public LiveData<List<String>> getGetCategories() {
+        return getCategories;
+    }
+
     public void addProduct(Product product){
         ShopRoomDatabase.databaseWriterExecutor.execute(new Runnable() {
             @Override
